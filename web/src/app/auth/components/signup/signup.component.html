@@ -1,0 +1,43 @@
+<form [formGroup]="signUpForm" class="form-signin ">
+  <div class="mb-3">
+    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign Up</h1>
+  </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control is-valid" id="email" formControlName="email">
+      <ng-container *ngIf="signUpForm.hasError('required')">
+        <div class="invalid-feedback">Email is required</div>
+      </ng-container>
+      <div class="invalid-feedback">Email is already in use</div>
+    </div>
+    <div class="mb-3">
+        <label for="firstname" class="form-label">First name</label>
+        <input type="text" class="form-control " id="firstname" formControlName="firstname">
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">First name is required</div>
+      </div>
+      <div class="mb-3">
+        <label for="lastname" class="form-label">Last name</label>
+        <input type="text" class="form-control is-in  valid" id="lastname" formControlName="lastname">
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Last name is required</div>
+      </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" formControlName="password">
+        <div class="invalid-feedback">password is required</div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+        <div class="invalid-feedback">password confirmation is required</div>
+        <div class="invalid-feedback">passwords do not match</div>
+      </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="isAgreed" formControlName="isAgreed">
+      <label class="form-check-label" for="exampleCheck1">Agree to terms and conditions</label>
+      <div class="invalid-feedback">You must agree before submitting.</div>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="signUp()">Submit</button>
+  </form>

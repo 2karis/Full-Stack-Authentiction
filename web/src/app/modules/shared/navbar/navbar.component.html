@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/">Navbar</a>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        @if(!isLoggedIn){
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a routerLink="/login" class="nav-link" >Login</a>
+            </div>
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a routerLink="/signup" class="nav-link px-3">Sign up</a>
+            </div>
+        </div>
+      }@else{
+          <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a class="nav-link px-3" (click)="logout()">Sign out</a>
+            </div>
+        </div>
+      }
+        <!-- <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
+      </div>
+    </div>
+  </nav>
