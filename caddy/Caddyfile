@@ -1,14 +1,8 @@
 localhost {
-    reverse_proxy web:4200
-	handle_path /api/* {
-		reverse_proxy backend:8080
-	}
+	reverse_proxy /api/* backend:8080
+	reverse_proxy /* web:4200
 }
 
-# upstream loadbalancer {
-#   server web1:5000;
-#   server web2:5000;
-# }
 
 # server {
 #   listen 80;

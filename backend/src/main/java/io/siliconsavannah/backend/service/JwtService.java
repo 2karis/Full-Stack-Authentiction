@@ -2,7 +2,6 @@ package io.siliconsavannah.backend.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,8 +14,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
-import static io.jsonwebtoken.Jwts.parser;
 
 @Service
 public class JwtService {
@@ -46,13 +43,25 @@ public class JwtService {
                 .compact();
     }
 
+    public String generateRefreshToken(Map<String,Object> extraClaims,
+                                       UserDetails userDetails){
+        return Jwts
+                .builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis()+1000*24*60))
+                .claims(extraClaims)
+                .signWith(getSigningKey())
+                .compact();
+    }
+
     public boolean isTokenValid(String jws, UserDetails userDetails){
         final String username = extractUsername(jws);
-        return username.equals(userDetails.getUsername()) && !isTokenExpied(jws);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(jws);
 
     }
 
-    private boolean isTokenExpied(String jws) {
+    private boolean isTokenExpired(String jws) {
         Date expiration = extractClaim(jws, Claims::getExpiration);
         return expiration.before(new Date());
     }
@@ -70,7 +79,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     public void setSigningKey(){
-        SecretKey key = Jwts.SIG.HS256.key().build(); //or HS384.key() or HS512.key()
+        SecretKey key = Jwts.SIG.HS256.key().build();
         String secretString = Encoders.BASE64.encode(key.getEncoded());
     }
 }

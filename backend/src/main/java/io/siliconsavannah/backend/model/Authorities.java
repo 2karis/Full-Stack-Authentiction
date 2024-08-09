@@ -1,8 +1,20 @@
 package io.siliconsavannah.backend.model;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.NoArgsConstructor;
+import org.hibernate.metamodel.model.domain.internal.SingularAttributeImpl;
 @Data
-public class Authorities implements GrantedAuthority {
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Authorities {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String authority;
 }

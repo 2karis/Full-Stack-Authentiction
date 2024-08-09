@@ -1,11 +1,10 @@
-
 services:
   db:
     image: mysql
     restart: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydatabase
+      MYSQL_DATABASE: fullstackauthentication
     networks:
       - network
   backend:
@@ -19,6 +18,8 @@ services:
       context: web
     networks:
       - network
+    ports:
+      - "4200:4200"
   caddy:
     image: caddy:2.7.6-alpine
     restart: unless-stopped
@@ -28,7 +29,7 @@ services:
       - "443:443/udp"
     volumes:
       - ./caddy:/etc/caddy
-      - ./site:/srv
+      #- ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -38,5 +39,3 @@ volumes:
   caddy_config:
 networks:
   network : 
-
-  

@@ -1,6 +1,5 @@
 package io.siliconsavannah.backend.service;
 
-import io.siliconsavannah.backend.dto.AuthDto;
 import io.siliconsavannah.backend.enums.Role;
 import io.siliconsavannah.backend.model.Authorities;
 import io.siliconsavannah.backend.repository.AuthoritiesRepository;
@@ -8,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorityService {
+public class RoleService {
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
     public void createAuthority(){
