@@ -36,13 +36,4 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body("failed to login User "+e.getMessage());
         }
     }
-    @GetMapping("/logout/{token}")
-    ResponseEntity<?> logout(@RequestParam String token) {
-        try{
-            return ResponseEntity.ok("token to be removed : " + token);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("failed to login User "+e.getMessage());
-        }
-    }
-
 }
