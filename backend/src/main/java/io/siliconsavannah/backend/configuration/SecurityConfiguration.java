@@ -54,13 +54,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/auth/**").permitAll()
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/user/**").hasAuthority(Role.USER.name())
-                )
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/admin/**").hasAuthority(Role.SUPER_USER.name())
-                )
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/admin/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/**").permitAll()
                 )
                 .sessionManagement((session)-> session
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

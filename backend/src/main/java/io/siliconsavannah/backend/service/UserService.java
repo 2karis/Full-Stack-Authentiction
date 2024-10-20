@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,16 @@ public class UserService {
     private AuthoritiesRepository authoritiesRepository;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public List<UserDto> readAllUsers(){
+        return userRepository.findAll().stream().map(entity-> UserDto.builder()
+                .id(entity.getId())
+                .email(entity.getEmail())
+                .firstname(entity.getFirstname())
+                .lastname(entity.getLastname())
+                .build()).collect(Collectors.toList());
+    }
+
     public void createUser(SignUpDto request){
 
         //Authorities authority = authoritiesRepository.findById(1).orElseThrow();

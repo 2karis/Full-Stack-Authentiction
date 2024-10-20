@@ -1,2 +1,8 @@
-package io.siliconsavannah.backend.dto;public class SubscribeDto {
-}
+package io.siliconsavannah.backend.dto;
+
+import java.math.BigDecimal;
+
+public record SubscribeDto(
+        int userId,
+        BigDecimal monthlyFee
+){}
