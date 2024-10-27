@@ -22,11 +22,11 @@ public class ContentController {
 
     @GetMapping("/mycontent")
     public ResponseEntity<List<ContentDto>> getContentsByUser() {
-        return ResponseEntity.ok(contentService.getContentsByAuthenticatedUser());
+        return ResponseEntity.ok(contentService.getAllContentByAuthenticatedUser());
     }
 
     @GetMapping("/read/{id}")
-    public ResponseEntity<ContentDto> getContentById(int id) {
+    public ResponseEntity<ContentDto> getContentById(@PathVariable Integer id) {
         return ResponseEntity.ok(contentService.getContentById(id));
     }
     @PostMapping("/create")

@@ -15,6 +15,6 @@ import org.hibernate.metamodel.model.domain.internal.SingularAttributeImpl;
 public class Authorities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String authority;
 }

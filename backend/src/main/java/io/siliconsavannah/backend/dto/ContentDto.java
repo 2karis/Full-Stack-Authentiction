@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Builder
 public record ContentDto(
-    int id,
+    Integer id,
     String title,
     String description,
     String content,

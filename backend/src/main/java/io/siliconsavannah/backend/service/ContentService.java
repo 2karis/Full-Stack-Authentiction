@@ -28,10 +28,10 @@ public class ContentService {
                 .toList();
     }
 
-    public ContentDto getContentById(int id) {
+    public ContentDto getContentById(Integer id) {
         Content content = contentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Content not found"));
-        return toDto( content, content.getUser());
+        return toDto(content, content.getUser());
     }
 
 
@@ -78,20 +78,24 @@ public class ContentService {
         return toDto(content, authenticatedUser);
     }
 
-    public void deleteContent(int id) {
+    public void deleteContent(Integer id) {
         contentRepository.deleteById(id);
     }
 
-    public List<ContentDto> getContentsByUser(int userId) {
-        return contentRepository.findAll(Example.of(Content.builder().user(User.builder().id(userId).build()).build()))
+    public List<ContentDto> getContentsByUser(User user) {
+        return contentRepository.findAllByUser(user)
                 .stream()
                 .map(content -> toDto(content, content.getUser()))
                 .toList();
     }
-    public List<ContentDto> getContentsByAuthenticatedUser() {
-        User authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<ContentDto> getAllContentByAuthenticatedUser() {
+        User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return getContentsByUser(authenticatedUser.getId());
+        String email = userDetails.getUsername();
+        // Do something with the username
+        User contentUser = userRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return getContentsByUser(contentUser);
     }
     public ContentDto toDto(Content content, User user) {
         return ContentDto.builder()
@@ -104,7 +108,4 @@ public class ContentService {
                 .updatedAt(content.getUpdatedAt())
                 .build();
     }
-
-
-
 }
