@@ -2,14 +2,9 @@ package io.siliconsavannah.backend.controller;
 
 import io.siliconsavannah.backend.dto.LoginDto;
 import io.siliconsavannah.backend.dto.SignUpDto;
-import io.siliconsavannah.backend.repository.UserRepository;
 import io.siliconsavannah.backend.service.AuthenticationService;
-import io.siliconsavannah.backend.service.JwtService;
-import io.siliconsavannah.backend.service.RoleService;
-import io.siliconsavannah.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
-    private final UserService userService;
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody SignUpDto request){
         try{
@@ -36,4 +28,10 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body("failed to login User "+e.getMessage());
         }
     }
+
+    @GetMapping("/currentTime")
+    public ResponseEntity<String> getCurrentTime(){
+        return ResponseEntity.ok(String.valueOf(System.currentTimeMillis()));
+    }
+
 }

@@ -37,19 +37,18 @@ public class JwtService {
                 .builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000*24*60))
+                .expiration(new Date(System.currentTimeMillis()+1000*24*60*60))
                 .claims(extraClaims)
                 .signWith(getSigningKey())
                 .compact();
     }
-
     public String generateRefreshToken(Map<String,Object> extraClaims,
                                        UserDetails userDetails){
         return Jwts
                 .builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000*24*60))
+                .expiration(new Date(System.currentTimeMillis()+1000*24*60*60))
                 .claims(extraClaims)
                 .signWith(getSigningKey())
                 .compact();

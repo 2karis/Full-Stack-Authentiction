@@ -12,13 +12,13 @@ public class RoleService {
     private AuthoritiesRepository authoritiesRepository;
     public void createAuthority(){
         Authorities authority = Authorities.builder()
-                .authority(Role.USER.name())
+                .authority(Role.ROLE_SUPER_USER.name())
                 .build();
         Authorities authority2 = Authorities.builder()
-                .authority(Role.SUPER_USER.name())
+                .authority(Role.ROLE_USER.name())
                 .build();
         Authorities authority3 = Authorities.builder()
-                .authority(Role.ADMIN.name())
+                .authority(Role.ROLE_ADMIN.name())
                 .build();
 
         authoritiesRepository.save(authority);

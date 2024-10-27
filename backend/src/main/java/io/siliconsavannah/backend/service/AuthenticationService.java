@@ -15,9 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthenticationService {
@@ -26,30 +24,18 @@ public class AuthenticationService {
     @Autowired
     private  AuthenticationManager authenticationManager;
 
-    //    @Autowired
-//    private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
     @Autowired
     private UserService userService;
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
 
-    public AuthDto signUp(SignUpDto request) throws Exception {
+
+    public String signUp(SignUpDto request) throws Exception {
         if(userService.hasUserWithEmail(request.email())){
             throw new Exception("User already Exists");
         }else{
             userService.createUser(request);
-
-//        String basicToken = this.generateBasicToken(request.getUsername(), request.getPassword());
-//        return AuthenticationResponse.builder()
-//                .token(basicToken)
-//                .build();
-
-//    String generateBasicToken(String username, String password){
-//        String encoding = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-//        return "Basic " + encoding;
-            return null;
+            return "User Created Successfully";
         }
 
     }

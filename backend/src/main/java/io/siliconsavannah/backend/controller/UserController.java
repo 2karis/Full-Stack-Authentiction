@@ -1,6 +1,7 @@
 package io.siliconsavannah.backend.controller;
 
 
+import io.siliconsavannah.backend.dto.PasswordDto;
 import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class UserController {
     @GetMapping("/readall")
     public ResponseEntity<List<UserDto>> getAllUsers(){
         return new ResponseEntity<>(userService.readAllUsers(), HttpStatus.OK);
+    }
+
+    @PostMapping("/updatePassword")
+    public ResponseEntity<?> updateUserPassword(@RequestBody PasswordDto passwordDto){
+        return new ResponseEntity<>(userService.updateUserPassword(passwordDto), HttpStatus.OK);
     }
 
 }
