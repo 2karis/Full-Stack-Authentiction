@@ -1,6 +1,5 @@
 package io.siliconsavannah.backend.model;
 
-import io.siliconsavannah.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,8 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,21 +20,27 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role ;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp
     LocalDateTime updatedAt;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        ArrayList <GrantedAuthority> authorities = new ArrayList<>();
+        for (Authority authority : role.getAuthorities()) {
+            authorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
+        }
+        return authorities;
     }
+
 
     @Override
     public String getUsername() {

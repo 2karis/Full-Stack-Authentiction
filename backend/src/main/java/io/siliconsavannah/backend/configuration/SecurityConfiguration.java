@@ -1,6 +1,5 @@
 package io.siliconsavannah.backend.configuration;
 
-import io.siliconsavannah.backend.enums.Role;
 import io.siliconsavannah.backend.filter.JwtAuthenticationFilter;
 import io.siliconsavannah.backend.model.User;
 import io.siliconsavannah.backend.service.UserService;

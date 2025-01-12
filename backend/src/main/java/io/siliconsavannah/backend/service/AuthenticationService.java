@@ -51,11 +51,10 @@ public class AuthenticationService {
         }
         final UserDetails userDetails = userService.userDetailsService().loadUserByUsername(request.email());
         final String jwt = jwtService.generateToken(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> authorities = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).toList();
             return AuthDto.builder()
                     .email(userDetails.getUsername())
-                    .role(roles.getFirst())
                     .token(jwt)
                     .build();
    }

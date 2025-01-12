@@ -3,13 +3,15 @@ package io.siliconsavannah.backend.service;
 import io.siliconsavannah.backend.dto.PasswordDto;
 import io.siliconsavannah.backend.dto.SignUpDto;
 import io.siliconsavannah.backend.dto.UserDto;
-import io.siliconsavannah.backend.enums.Role;
+import io.siliconsavannah.backend.enums.RoleName;
+import io.siliconsavannah.backend.model.Role;
 import io.siliconsavannah.backend.model.User;
-import io.siliconsavannah.backend.repository.AuthoritiesRepository;
+import io.siliconsavannah.backend.repository.RoleRepository;
 import io.siliconsavannah.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,11 +27,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private AuthoritiesRepository authoritiesRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
+    //@Autowired
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<UserDto> readAllUsers(){
@@ -38,12 +39,13 @@ public class UserService {
 
     public void createUser(SignUpDto request){
 
+        Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found!"));
         User user = User.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
-                .role(Role.ROLE_USER)
+                .role(customerRole)
                 .build();
         log.info("{}",user);
 
@@ -86,7 +88,7 @@ public class UserService {
             throw new RuntimeException("Error occurred updating password");
         }
     }
-    public void deleteUser(int id) {
+    public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
 
@@ -106,7 +108,7 @@ public class UserService {
     }
 
     private static UserDto toDto(User user){
-        return new UserDto(user.getFirstname(), user.getLastname(), user.getEmail(), user.getRole().name());
+        return new UserDto(user.getFirstname(), user.getLastname(), user.getEmail(), user.getRole().getName().name());
     }
 
     private static User toEntity(UserDto userDto){

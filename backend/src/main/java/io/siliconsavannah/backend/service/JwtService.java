@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,15 @@ import javax.crypto.SecretKey;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String key = "38364244617577626a384e6853615942384a6b3567626e773265545271317269";
+
+    @Value("${jwt.signing.key}")
+    public String key;
     //private static final String key = "6eeZsYEaUcjRU5VHuQh5sWEtm0n8SDt4";
     //private static final SecretKey key = Jwts.SIG.HS256.key().build();
     public String extractUsername(String jws) {
@@ -29,7 +34,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
     public String generateToken(UserDetails userDetails){
-        return generateToken((new HashMap<>()),userDetails);
+        return generateToken(extractAuthorities(userDetails),userDetails);
     }
     public String generateToken(Map<String, Object> extraClaims,
                                 UserDetails userDetails){
@@ -72,6 +77,15 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(jws)
                 .getPayload();
+    }
+
+    public HashMap<String, Object> extractAuthorities(UserDetails userDetails){
+        HashMap<String, Object> claims = new HashMap<>();
+        List<String> authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).toList();
+        claims.put("authorities", authorities);
+        return claims;
+
     }
     public SecretKey getSigningKey(){
         byte[] keyBytes = Decoders.BASE64.decode(key);
