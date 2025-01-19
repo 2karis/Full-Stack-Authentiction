@@ -28,6 +28,8 @@ public class User implements UserDetails {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role ;
+    private LocalDateTime verifiedAt;
+    private String profile;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp

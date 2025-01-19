@@ -1,17 +1,17 @@
 package io.siliconsavannah.backend.configuration;
 
-import io.siliconsavannah.backend.service.RoleService;
+import io.siliconsavannah.backend.service.DatabaseSeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @Configuration
-public class RoleSeeder implements ApplicationRunner {
-    private final RoleService roleService;
+public class DataBaseSeedConfiguration implements ApplicationRunner {
+    private final DatabaseSeedService databaseSeedService;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        long count = roleService.RoleCount();
-        if(count == 0L) roleService.seedRoles();
+        databaseSeedService.seedRolesAndAuthorities();
+        databaseSeedService.seedUsers();
     }
 }

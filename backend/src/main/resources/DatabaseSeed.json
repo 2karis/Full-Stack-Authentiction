@@ -1057,5 +1057,52 @@
       "authority_id":80,
       "role_id":2
     }
+  ],
+  "Users": [
+    {
+      "firstname" : "Super Admin",
+      "lastname" : "Account",
+      "email" : "maintainer@gmail.com",
+      "password" : "123456",
+      "role" : "ROLE_SUPER_ADMIN",
+      "verifiedAt" : "2019-04-30T10:00:00",
+      "profile" : "avatar.png"
+    },
+    {
+      "firstname" : "Owner",
+      "lastname" : "Account",
+      "email" : "owner@gmail.com",
+      "password" : "123456",
+      "role" : "ROLE_OWNER",
+      "verifiedAt" : "2019-04-30T10:00:00",
+      "profile" : "avatar.png"
+    },
+    {
+      "firstname" : "Manager",
+      "lastname" : "Account",
+      "email" : "manager@gmail.com",
+      "password" : "123456",
+      "role" : "ROLE_MANAGER",
+      "verifiedAt" : "2019-04-30T10:00:00",
+      "profile" : "avatar.png"
+    },
+    {
+      "firstname" : "Maintainer",
+      "lastname" : "Account",
+      "email" : "maintainer@gmail.com",
+      "password" : "123456",
+      "role" : "ROLE_MAINTAINER",
+      "verifiedAt" : "2019-04-30T10:00:00",
+      "profile" : "avatar.png"
+    },
+    {
+      "firstname" : "Customer",
+      "lastname" : "Account",
+      "email" : "customer@gmail.com",
+      "password" : "123456",
+      "role" : "ROLE_CUSTOMER",
+      "verifiedAt" : "2019-04-30T10:00:00",
+      "profile" : "avatar.png"
+    }
   ]
 }
