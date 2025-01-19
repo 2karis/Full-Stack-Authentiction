@@ -25,8 +25,8 @@ public class Customer {
     private String country;
     private String state;
     private String city;
-    private String zip_code;
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
-    private boolean is_active;
+    private String zipCode;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private boolean isActive;
 }

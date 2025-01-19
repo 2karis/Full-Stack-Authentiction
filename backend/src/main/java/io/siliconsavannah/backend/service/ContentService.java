@@ -1,10 +1,12 @@
 package io.siliconsavannah.backend.service;
 
 import io.siliconsavannah.backend.dto.ContentDto;
+import io.siliconsavannah.backend.helper.Helper;
 import io.siliconsavannah.backend.model.Content;
 import io.siliconsavannah.backend.model.User;
 import io.siliconsavannah.backend.repository.ContentRepository;
 import io.siliconsavannah.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +16,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ContentService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ContentRepository contentRepository;
+    private final Helper helper;
+    private final UserRepository userRepository;
+    private final ContentRepository contentRepository;
 
     public List<ContentDto> getAllContents() {
         // Fetch all content entities from the repository
@@ -37,14 +38,11 @@ public class ContentService {
 
     public ContentDto createContent(ContentDto contentDto) {
         // Retrieve the authenticated user from the security context
-        var authenticatedUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authenticatedUser instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authenticatedUser;
+            UserDetails userDetails = helper.getAuthenticatedUser();
             String email = userDetails.getUsername();
             // Do something with the username
             User contentUser = userRepository.findFirstByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found"));
-
             Content content = Content.builder()
                     .title(contentDto.title())
                     .description(contentDto.description())
@@ -53,11 +51,7 @@ public class ContentService {
                     .build();
 
             contentRepository.save(content);
-
             return toDto( content, content.getUser());
-        }else{
-            throw new RuntimeException("error occurred creating content");
-        }
     }
 
 

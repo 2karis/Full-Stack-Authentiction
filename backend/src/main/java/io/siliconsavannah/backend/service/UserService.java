@@ -1,9 +1,11 @@
 package io.siliconsavannah.backend.service;
 
+import io.siliconsavannah.backend.configuration.PasswordEncoder;
 import io.siliconsavannah.backend.dto.PasswordDto;
 import io.siliconsavannah.backend.dto.SignUpDto;
 import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.enums.RoleName;
+import io.siliconsavannah.backend.helper.Helper;
 import io.siliconsavannah.backend.model.Role;
 import io.siliconsavannah.backend.model.User;
 import io.siliconsavannah.backend.repository.RoleRepository;
@@ -17,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,25 +28,26 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final Helper helper;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
-    //@Autowired
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserDto> readAllUsers(){
         return userRepository.findAll().stream().map(UserService::toDto).collect(Collectors.toList());
     }
 
     public void createUser(SignUpDto request){
+        Long authenticatedUserIdParentId = helper.getAuthenticatedUserIdParentId();
 
         Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER).orElseThrow(() -> new RuntimeException("Role not found!"));
         User user = User.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
+                .password(passwordEncoder.encoder().encode(request.password()))
                 .role(customerRole)
+                .parentId(authenticatedUserIdParentId)
                 .build();
         log.info("{}",user);
 
@@ -53,38 +55,31 @@ public class UserService {
     }
     public UserDto updateUserDetails(UserDto userDto) {
 
-        var authenticatedUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authenticatedUser instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
-            // Do something with the username
-            User user = userRepository.findFirstByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found!"));
+        User authenticatedUser = helper.getAuthenticatedUser();
 
-            if (userDto.firstname() != null) user.setFirstname(userDto.firstname());
-            if (userDto.lastname() != null) user.setLastname(userDto.lastname());
-            if (userDto.email() != null) user.setEmail(userDto.email());
+        String email = authenticatedUser.getUsername();
+        // Do something with the username
+        User user = userRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
 
-            User newUser = userRepository.save(user);
+        if (userDto.firstname() != null) user.setFirstname(userDto.firstname());
+        if (userDto.lastname() != null) user.setLastname(userDto.lastname());
+        if (userDto.email() != null) user.setEmail(userDto.email());
 
-            return toDto(newUser);
-        }else{
-            throw new RuntimeException("Error occurred updating user details");
-        }
+        User newUser = userRepository.save(user);
+
+        return toDto(newUser);
     }
 
     public String updateUserPassword(PasswordDto passwordDto) {
-        var authenticatedUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authenticatedUser instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
-            // Do something with the username
-            User user = userRepository.findFirstByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-            user.setPassword(passwordEncoder.encode(passwordDto.password()));
-            User updatedUser = userRepository.save(user);
-            return "User Password Updated Successfully";
-        }else{
-            throw new RuntimeException("Error occurred updating password");
-        }
+        User authenticatedUser = helper.getAuthenticatedUser();
+        String email = authenticatedUser.getUsername();
+        // Do something with the username
+        User user = userRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(passwordEncoder.encoder().encode(passwordDto.password()));
+        User updatedUser = userRepository.save(user);
+        return "User Password Updated Successfully";
     }
     public void deleteUser(long id) {
         userRepository.deleteById(id);
