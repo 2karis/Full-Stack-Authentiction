@@ -1066,7 +1066,8 @@
       "password" : "123456",
       "role" : "ROLE_SUPER_ADMIN",
       "verifiedAt" : "2019-04-30T10:00:00",
-      "profile" : "avatar.png"
+      "profile" : "avatar.png",
+      "parentId" : 0
     },
     {
       "firstname" : "Owner",
@@ -1075,7 +1076,9 @@
       "password" : "123456",
       "role" : "ROLE_OWNER",
       "verifiedAt" : "2019-04-30T10:00:00",
-      "profile" : "avatar.png"
+      "profile" : "avatar.png",
+      "parentId" : 1
+
     },
     {
       "firstname" : "Manager",
@@ -1084,7 +1087,8 @@
       "password" : "123456",
       "role" : "ROLE_MANAGER",
       "verifiedAt" : "2019-04-30T10:00:00",
-      "profile" : "avatar.png"
+      "profile" : "avatar.png",
+      "parentId" : 2
     },
     {
       "firstname" : "Maintainer",
@@ -1093,7 +1097,8 @@
       "password" : "123456",
       "role" : "ROLE_MAINTAINER",
       "verifiedAt" : "2019-04-30T10:00:00",
-      "profile" : "avatar.png"
+      "profile" : "avatar.png",
+      "parentId" : 2
     },
     {
       "firstname" : "Customer",
@@ -1102,7 +1107,8 @@
       "password" : "123456",
       "role" : "ROLE_CUSTOMER",
       "verifiedAt" : "2019-04-30T10:00:00",
-      "profile" : "avatar.png"
+      "profile" : "avatar.png",
+      "parentId" : 2
     }
   ]
 }

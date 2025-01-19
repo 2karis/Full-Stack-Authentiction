@@ -26,7 +26,7 @@ public class ContentController {
     }
 
     @GetMapping("/read/{id}")
-    public ResponseEntity<ContentDto> getContentById(@PathVariable Integer id) {
+    public ResponseEntity<ContentDto> getContentById(@PathVariable Long id) {
         return ResponseEntity.ok(contentService.getContentById(id));
     }
     @PostMapping("/create")
@@ -38,7 +38,7 @@ public class ContentController {
         return ResponseEntity.ok(contentService.updateContent(contentDto));
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteContent(@PathVariable int id) {
+    public ResponseEntity<Void> deleteContent(@PathVariable Long id) {
         contentService.deleteContent(id);
         return ResponseEntity.ok().build();
     }

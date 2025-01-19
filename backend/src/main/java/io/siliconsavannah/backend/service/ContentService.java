@@ -28,7 +28,7 @@ public class ContentService {
                 .toList();
     }
 
-    public ContentDto getContentById(Integer id) {
+    public ContentDto getContentById(Long id) {
         Content content = contentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Content not found"));
         return toDto(content, content.getUser());
@@ -78,7 +78,7 @@ public class ContentService {
         return toDto(content, authenticatedUser);
     }
 
-    public void deleteContent(Integer id) {
+    public void deleteContent(Long id) {
         contentRepository.deleteById(id);
     }
 

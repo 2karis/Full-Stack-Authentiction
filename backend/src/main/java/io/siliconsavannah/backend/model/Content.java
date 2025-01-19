@@ -17,13 +17,14 @@ import java.time.LocalDateTime;
 public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
     String title;
     String description;
     String content;
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+    Long parentId;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp

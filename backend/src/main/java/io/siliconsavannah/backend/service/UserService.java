@@ -54,8 +54,7 @@ public class UserService {
     public UserDto updateUserDetails(UserDto userDto) {
 
         var authenticatedUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authenticatedUser instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authenticatedUser;
+        if (authenticatedUser instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             // Do something with the username
             User user = userRepository.findFirstByEmail(email)
@@ -75,8 +74,7 @@ public class UserService {
 
     public String updateUserPassword(PasswordDto passwordDto) {
         var authenticatedUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authenticatedUser instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authenticatedUser;
+        if (authenticatedUser instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
             // Do something with the username
             User user = userRepository.findFirstByEmail(email)

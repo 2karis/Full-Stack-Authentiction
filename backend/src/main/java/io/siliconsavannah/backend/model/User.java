@@ -24,12 +24,14 @@ public class User implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
+    private String phoneNumber;
     private String password;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role ;
     private LocalDateTime verifiedAt;
     private String profile;
+    private Long parentId;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp
