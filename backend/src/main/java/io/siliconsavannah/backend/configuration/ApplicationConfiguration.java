@@ -27,4 +27,8 @@ public class ApplicationConfiguration {
         expressionHandler.setRoleHierarchy(roleHierarchy);
         return expressionHandler;
     }
+    @Bean
+        public Long getSuperAdminId() {
+        return 1L;
+    }
 }

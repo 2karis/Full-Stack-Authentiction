@@ -23,9 +23,5 @@ public class UserController {
         return new ResponseEntity<>(userService.readAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/updatePassword")
-    public ResponseEntity<?> updateUserPassword(@RequestBody PasswordDto passwordDto){
-        return new ResponseEntity<>(userService.updateUserPassword(passwordDto), HttpStatus.OK);
-    }
 
 }

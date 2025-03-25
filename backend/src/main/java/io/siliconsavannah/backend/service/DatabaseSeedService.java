@@ -133,12 +133,15 @@ public class DatabaseSeedService {
     private User toEntity(UserSeedDto userDto){
         Role customerRole = roleRepository.findByName(userDto.getRole()).orElseThrow(() -> new RuntimeException("Role not found!"));
 
-        return User.builder()
+        User user =  User.builder()
                 .firstname(userDto.getFirstname())
                 .lastname(userDto.getLastname())
                 .email(userDto.getEmail())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .role(customerRole)
                 .build();
+
+
+        return user;
     }
 }

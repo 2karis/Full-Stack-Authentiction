@@ -6,8 +6,10 @@ import io.siliconsavannah.backend.dto.SignUpDto;
 import io.siliconsavannah.backend.dto.UserDto;
 import io.siliconsavannah.backend.enums.RoleName;
 import io.siliconsavannah.backend.helper.Helper;
+import io.siliconsavannah.backend.model.PasswordResetToken;
 import io.siliconsavannah.backend.model.Role;
 import io.siliconsavannah.backend.model.User;
+import io.siliconsavannah.backend.repository.PasswordResetTokenRepository;
 import io.siliconsavannah.backend.repository.RoleRepository;
 import io.siliconsavannah.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,16 +24,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private static final int EXPIRATION = 60 * 24;
+
     private final Helper helper;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     public List<UserDto> readAllUsers(){
         return userRepository.findAll().stream().map(UserService::toDto).collect(Collectors.toList());
