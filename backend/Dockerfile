@@ -8,9 +8,9 @@ RUN mvn dependency:go-offline
 
 COPY src /app/src
 
-RUN rm /app/src/main/resources/application.properties
+RUN rm /app/src/main/resources/application.yml
 
-COPY config/application.properties /app/src/main/resources
+COPY config/application.yml /app/src/main/resources
 
 RUN mvn install -DskipTests
 

@@ -11,6 +11,7 @@ public record ContentDto(
     String title,
     String description,
     String content,
+    String imageUrl,
     String username,
     LocalDateTime createdAt,
     LocalDateTime updatedAt

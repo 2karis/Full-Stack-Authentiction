@@ -21,6 +21,7 @@ public class Content {
     String title;
     String description;
     String content;
+    String imageUrl;
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
