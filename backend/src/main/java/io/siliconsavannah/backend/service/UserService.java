@@ -60,11 +60,8 @@ public class UserService {
         userRepository.save(user);
     }
     public UserDto updateUserDetails(UserDto userDto) {
-
         User authenticatedUser = helper.getAuthenticatedUser();
-
         String email = authenticatedUser.getUsername();
-        // Do something with the username
         User user = userRepository.findFirstByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
@@ -80,7 +77,7 @@ public class UserService {
     public String updateUserPassword(PasswordDto passwordDto) {
         User authenticatedUser = helper.getAuthenticatedUser();
         String email = authenticatedUser.getUsername();
-        // Do something with the username
+
         User user = userRepository.findFirstByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword(passwordEncoder.encoder().encode(passwordDto.password()));
@@ -117,4 +114,14 @@ public class UserService {
                 .email(userDto.email())
                 .build();
     }
+
+    public UserDto findUserById(long id) throws Exception {
+        return toDto(userRepository.findById(id)
+                .orElseThrow(() -> new Exception("user with id "+ id +" not found")));
+    }
+    public UserDto createUser(UserDto user){
+        return toDto(userRepository.save(toEntity(user)));
+    }
+
+
 }

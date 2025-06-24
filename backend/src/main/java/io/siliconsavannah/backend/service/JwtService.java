@@ -26,6 +26,7 @@ public class JwtService {
     //private static final String key = "6eeZsYEaUcjRU5VHuQh5sWEtm0n8SDt4";
     //private static final SecretKey key = Jwts.SIG.HS256.key().build();
     public String extractUsername(String jws) {
+        setSigningKey();
         return extractClaim(jws, Claims::getSubject);
     }
 

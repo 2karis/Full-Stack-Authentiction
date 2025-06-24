@@ -23,5 +23,33 @@ public class UserController {
         return new ResponseEntity<>(userService.readAllUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("/read/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserDto>updateUser(@RequestBody UserDto user){
+        try {
+            return new ResponseEntity<>(userService.updateUserDetails(user), HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
