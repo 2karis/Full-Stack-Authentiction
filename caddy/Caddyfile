@@ -1,8 +1,12 @@
-localhost {
-	reverse_proxy /api/* backend:7000
-	reverse_proxy /* web:4200
-}
+:80 {
+	handle_path /api/* {
+		reverse_proxy backend:7000
+	}
 
+	handle_path /* {
+		reverse_proxy web:4200
+	}
+}
 
 # server {
 #   listen 80;

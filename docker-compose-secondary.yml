@@ -18,22 +18,27 @@ services:
       context: web
     networks:
       - network
-    ports:
-      - "4200:4200"
-  caddy:
-    image: caddy:2.7.6-alpine
+  nginx:
+    build: 
+     context: nginx
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./caddy:/etc/caddy
-      #- ./site:/srv
-      - caddy_data:/data
-      - caddy_config:/config
+      - "8002:80"
     networks:
       - network
+  # caddy:
+  #   image: caddy:2.7.6-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8081:80"
+  #     #- "8081:443"
+  #   volumes:
+  #     - ./caddy:/etc/caddy
+  #     #- ./site:/srv
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   networks:
+  #     - network
 volumes:
   caddy_data:
   caddy_config:
